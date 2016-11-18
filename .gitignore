@@ -1,0 +1,24 @@
+# General
+.*
+~*
+*~
+*#
+hs_err_pid*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Java
+*.class
+
+# Julia
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+deps/deps.jl
+
+# Keep these:
+!/.gitignore
+
