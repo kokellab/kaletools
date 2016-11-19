@@ -1,5 +1,5 @@
 # kl-tools
-Miscellaneous public tools for the Kokel Lab.
+Miscellaneous public tools for the [Kokel Lab](https://kokellab.com).
 
 
 ## license
