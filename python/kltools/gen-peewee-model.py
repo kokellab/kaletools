@@ -47,7 +47,7 @@ def fix_blobs(columns: Set[str], output: str):
 		else:
 			print(line.rstrip())
 
-def main(host: str, username: str,  db: str, schema: str, output: str) -> None:
+def run(host: str, username: str,  db: str, schema: str, output: str) -> None:
 	gen_model(host, username, db, output)
 	fix_connection(output)
 	blob_columns = find_blob_columns(schema)
@@ -55,7 +55,7 @@ def main(host: str, username: str,  db: str, schema: str, output: str) -> None:
 	fix_blobs(blob_columns, output)
 
 def main(opts: List[str]) -> None:
-	main(opts.host, opts.username, opts.db, opts.schema, opts.output)
+	run(opts.host, opts.username, opts.db, opts.schema, opts.output)
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Generates a peewee model and fixes the connection info and binary/blob columns.')
