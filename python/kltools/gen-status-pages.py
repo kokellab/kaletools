@@ -26,7 +26,7 @@ def generate(statuses_file: str, template_file: str, output_dir: str):
 		with open(os.path.join(output_dir, entry['code'] + '.html'), 'w') as f: f.write(replaced)
 
 if __name__ == '__main__':
-	parser = argparse.ArgumentParser(description='Generates a peewee model and fixes the connection info and binary/blob columns.')
+	parser = argparse.ArgumentParser(description='Fills a directory with small, simple HTTP status code pages by substituting the status code information in a template.')
 	parser.add_argument('--statuses', default=None, type=str, help='JSON file of status codes')
 	parser.add_argument('--template', default=None, type=str, help='Status page template')
 	parser.add_argument('--output', required=True, type=str, help='Directory for output')
