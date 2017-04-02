@@ -12,3 +12,7 @@ Due to the complexity of academic copyright and the [UC copyright policy](http:/
 - Douglas Myers-Turnbull
 - Cole Helsell
 
+## Resources
+
+The [status code JSON file](https://github.com/kokellab/kl-tools/blob/master/python/kltools/resources/status-codes.json) is adapted from [know-your-http-well](https://github.com/for-GET/know-your-http-well), which is in the public domain.
+
