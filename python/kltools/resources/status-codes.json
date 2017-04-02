@@ -9,7 +9,7 @@
     {
         "code": "101",
         "phrase": "Switching Protocols",
-        "description": "The server understands and is willing to comply with the client's request, via the Upgrade header field, for a change in the application protocol being used on this connection.",
+        "description": "The server understands and is willing to comply with the client’s request, via the Upgrade header field, for a change in the application protocol being used on this connection.",
         "spec_title": "RFC7231#6.2.2",
         "spec_href": "https://tools.ietf.org/html/rfc7231#section-6.2.2"
     },
@@ -37,7 +37,7 @@
     {
         "code": "203",
         "phrase": "Non-Authoritative Information",
-        "description": "The request was successful but the enclosed payload has been modified from that of the origin server's 200 (OK) response by a transforming proxy.",
+        "description": "The request was successful but the enclosed payload has been modified from that of the origin server’s 200 (OK) response by a transforming proxy.",
         "spec_title": "RFC7231#6.3.4",
         "spec_href": "https://tools.ietf.org/html/rfc7231#section-6.3.4"
     },
@@ -58,7 +58,7 @@
     {
         "code": "206",
         "phrase": "Partial Content",
-        "description": "The server is successfully fulfilling a range request for the target resource by transferring one or more parts of the selected representation that correspond to the satisfiable ranges found in the requests's Range header field.",
+        "description": "The server is successfully fulfilling a range request for the target resource by transferring one or more parts of the selected representation that correspond to the satisfiable ranges found in the requests’s Range header field.",
         "spec_title": "RFC7233#4.1",
         "spec_href": "https://tools.ietf.org/html/rfc7233#section-4.1"
     },
@@ -93,7 +93,7 @@
     {
         "code": "304",
         "phrase": "Not Modified",
-        "description": "a conditional GET request has been received and would have resulted in a 200 (OK) response if it were not for the fact that the condition has evaluated to false.",
+        "description": "A conditional GET request has been received and would have resulted in a 200 (OK) response if it were not for the fact that the condition has evaluated to false.",
         "spec_title": "RFC7232#4.1",
         "spec_href": "https://tools.ietf.org/html/rfc7232#section-4.1"
     },
@@ -163,7 +163,7 @@
     {
         "code": "407",
         "phrase": "Proxy Authentication Required",
-        "description": "is similar to 401 (Unauthorized), but the client needs to authenticate itself in order to use a proxy.",
+        "description": "The client needs to authenticate itself in order to use a proxy.",
         "spec_title": "RFC7235#3.2",
         "spec_href": "https://tools.ietf.org/html/rfc7235#section-3.2"
     },
@@ -184,7 +184,7 @@
     {
         "code": "410",
         "phrase": "Gone",
-        "description": "access to the target resource is no longer available at the origin server and that this condition is likely to be permanent.",
+        "description": "Access to the target resource is no longer available at the origin server and that this condition is likely to be permanent.",
         "spec_title": "RFC7231#6.5.9",
         "spec_href": "https://tools.ietf.org/html/rfc7231#section-6.5.9"
     },
@@ -198,7 +198,7 @@
     {
         "code": "412",
         "phrase": "Precondition Failed",
-        "description": "one or more preconditions given in the request header fields evaluated to false when tested on the server.",
+        "description": "One or more preconditions given in the request header fields evaluated to false when tested on the server.",
         "spec_title": "RFC7232#4.2",
         "spec_href": "https://tools.ietf.org/html/rfc7232#section-4.2"
     },
@@ -226,21 +226,21 @@
     {
         "code": "416",
         "phrase": "Range Not Satisfiable",
-        "description": "none of the ranges in the request's Range header field overlap the current extent of the selected resource or that the set of ranges requested has been rejected due to invalid ranges or an excessive request of small or overlapping ranges.",
+        "description": "None of the ranges in the request’s Range header field overlap the current extent of the selected resource or that the set of ranges requested has been rejected due to invalid ranges or an excessive request of small or overlapping ranges.",
         "spec_title": "RFC7233#4.4",
         "spec_href": "https://tools.ietf.org/html/rfc7233#section-4.4"
     },
     {
         "code": "417",
         "phrase": "Expectation Failed",
-        "description": "The expectation given in the request's Expect header field could not be met by at least one of the inbound servers.",
+        "description": "The expectation given in the request’s Expect header field could not be met by at least one of the inbound servers.",
         "spec_title": "RFC7231#6.5.14",
         "spec_href": "https://tools.ietf.org/html/rfc7231#section-6.5.14"
     },
     {
         "code": "418",
-        "phrase": "I'm a teapot",
-        "description": "Any attempt to brew coffee with a teapot should result in the error code 418 I'm a teapot.",
+        "phrase": "I’m a teapot",
+        "description": "Any attempt to brew coffee with a teapot should result in the error code 418 I’m a teapot.",
         "spec_title": "RFC2324#2.3.1",
         "spec_href": "https://tools.ietf.org/html/rfc2324#section-2.3.1"
     },
@@ -296,14 +296,14 @@
     {
         "code": "102",
         "phrase": "Processing",
-        "description": "is an interim response used to inform the client that the server has accepted the complete request, but has not yet completed it.",
+        "description": "The server has accepted the complete request, but has not yet completed it.",
         "spec_title": "RFC5218#10.1",
         "spec_href": "https://tools.ietf.org/html/rfc2518#section-10.1"
     },
     {
         "code": "207",
         "phrase": "Multi-Status",
-        "description": "provides status for multiple independent operations.",
+        "description": "The message body that follows is an XML message and can contain a number of separate response codes, depending on how many sub-requests were made.",
         "spec_title": "RFC5218#10.2",
         "spec_href": "https://tools.ietf.org/html/rfc2518#section-10.2"
     },
