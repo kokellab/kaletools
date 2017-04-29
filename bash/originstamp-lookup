@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+if (( $# != 1 )); then
+	echo "Usage: $0 <file-to-hash>"
+	exit 1
+fi
+
+hash=$( gsha256sum $1 | cut -d' ' -f1 )
+
+echo -e "\033[1;91mSHA-256 is $hash\e[0m"
+curl -s -X GET -H "Content-Type: application/json" -H "Authorization: $originstamp_api_key" http://api.originstamp.org/api/$hash | jq
+
