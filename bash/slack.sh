@@ -1,21 +1,15 @@
 # Author: Douglas
-# Usage: <identity-sh-file> <message>
-# the identity-sh-file must have the lines:
-# export username=...
-# export channel=...
-# export webhook_url=...
 #!/usr/bin/env bash
 set -euo pipefail
 IFS=$'\n\t'
 
-if (( $# != 2 )); then
-	(>&2 echo "Usage: ${0} <identity-sh-file> <message>")
+if (( $# != 3 )); then
+	(>&2 echo "Usage: ${0} <webhook_url> <channel> <message>")
 	exit 1
 fi
-echo "$1"
-
-source "$1"
-text=$2
+webhook_url=$1
+channel=$2
+text=$3
 
 if [[ $text == "" ]]; then
         echo "No text specified"
@@ -24,7 +18,6 @@ fi
 
 escaped=$(echo $text | sed 's/"/\"/g' | sed "s/'/\'/g" )
 
-json="{\"channel\": \"$channel\", \"username\":\"$username\", \"attachments\":[{\"color\":\"danger\" , \"text\": \"$escaped\"}]}"
+json="{\"channel\": \"$channel\", \"attachments\":[{\"text\": \"$escaped\"}]}"
 
 curl -s -d "payload=$json" "$webhook_url"
-
