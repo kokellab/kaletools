@@ -1,0 +1,39 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+IFS=$'\n\t'
+set +o nounset  # needed because conda activate uses $BASH_PROFILE
+
+if (( $# == 1 )) && [[ "$1" = "--help" ]]; then
+	echo "Opens an existing notebook or path with Jupyter."
+	echo "Usage: $0 [path='.']"
+	exit 0
+fi
+
+target=.
+if (( $# == 1 )); then
+	target=$1
+elif (( $# > 1 )); then
+	>&2 echo "Usage: $0 [path='.']"
+	exit 1
+fi
+
+# TODO remove
+if [[ -e "/opt/anaconda3/bin" ]]; then
+	export PATH="/opt/anaconda3/bin:$PATH"
+fi
+
+if [[ ! -e $target ]]; then
+	>&2 echo "${target} does not exist."
+else
+	if [[ ! -f "$target" ]]; then d=notebooks ; else d=tree ; fi
+	pth=$(realpath --relative-to=$jupyter_base_dir "$target")
+	echo "opening "http://localhost:${jupyter_port}/${d}/${pth}""
+	ker_url="http://localhost:${jupyter_port}/${d}/${pth}"
+	if [[ $OSTYPE =~ "darwin" ]]; then
+		open $ker_url
+	else
+		xdg-open $ker_url
+	fi
+fi
+
+

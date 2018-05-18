@@ -1,0 +1,30 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+IFS=$'\n\t'
+
+if (( $# == 1 )) && [[ "$1" = "--help" ]]; then
+	echo "Makes a new Jupyter notebook from a template."
+	echo "Usage: $0 [notebook-name='untitled.ipynb']"
+	exit 0
+fi
+	
+
+target=untitled.ipynb
+if (( $# == 1 )); then
+	target=$1
+elif (( $# > 1 )); then
+	>&2 echo "Usage: $0 [notebook-name='untitled.ipynb']"
+	exit 1
+fi
+
+if [[ ! "$target" =~ \.ipynb$ ]]; then
+	target=$target.ipynb
+fi
+
+if [[ -e $target ]]; then
+	>&2 echo "Refusing: ${target} already exists."
+else
+	cp $KLSCRIPTS/notebooks/template.ipynb $target
+	echo "Created $target"
+fi
+
