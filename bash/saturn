@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+set +o nounset  # needed because conda activate uses $BASH_PROFILE
+
+target=$jupyter_base_dir
+if (( $# == 1 )) && [[ "$1" = "--help" ]]; then
+	echo "Starts a Jupyter server, by default at \$jupyter_base_dir"
+	echo "Usage: $0 [path='\$jupyter_base_dir']"
+	exit 0
+fi
+if (( $# == 1 )) && [[ "$1" = "--help" ]]; then
+    target=$1
+elif (( $# > 1 )); then
+	>&2 echo "Usage: $0 [path='\$jupyter_base_dir']"
+	exit 1
+fi
+
+echo "Starting server rooted in $target"
+source activate root && jupyter notebook --NotebookApp.iopub_data_rate_limit=10000000 "$target" --port=${jupyter_port}
+
