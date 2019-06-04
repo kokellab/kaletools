@@ -9,7 +9,7 @@ import subprocess
 import fileinput
 import peewee
 import logging
-from typing import List, Set, Iterator, Dict, Match
+from typing import List, Set, Iterator, Dict, Match, Union
 
 _blob_comment = '  # auto-corrected to BlobField'
 _enum_comment = '  # auto-corrected to Enum'
@@ -18,14 +18,18 @@ _enum_regex = re.compile("^ *\`([^ ]+)\` (?:enum)(\(.*\)).*$")
 _peewee_field_regex = re.compile('^ *([a-z][a-z0-9_]*) = ([A-Z][A-Za-z]*Field)\(.*\)$')
 _type_regex = re.compile('[A-Z][A-Za-z]*Field')
 _etype_regex = re.compile('[A-Z][A-Za-z]*Field\(')
+_table_regex = re.compile('^(?:CREATE TABLE) `(.*)`')
+_pw_table_regex = re.compile('^(?:class) ([A-Za-z]*)\(')
 
 def _lines(filename: str) -> Iterator[str]:
 	with open(filename, 'r') as f:
 		for line in f: yield line.rstrip('\n\r')
 
+
 def gen_model(host: str, username: str, db: str, port: int, output: str) -> None:
 	with open(output, 'w') as f:
 		subprocess.call([sys.executable, '-m', 'pwiz', '-e', 'mysql', '-H', host, '-u', username, '-p', port, '-P', db], stdout=f)
+
 
 def fix_connection(output: str, header_file: str) -> None:
 
@@ -40,13 +44,28 @@ def fix_connection(output: str, header_file: str) -> None:
 		elif fileinput.filelineno() > 3:
 			print(line.rstrip())
 
+
 def find_blob_columns(schema: str) -> Set[str]:
 	"""Returns the names of columns that have binary or *blob types."""
 	return {m.group(1) for m in [_blob_regex.match(line) for line in _lines(schema)] if m is not None}
 
-def find_enum_columns(schema: str) -> Dict[Match, Match]:
+
+def find_enum_columns(schema: str) -> Dict[str, Dict[str, str]]:
 	"""Returns the names of columns that are of enum type."""
-	return {m.group(1): m.group(2) for m in [_enum_regex.match(line) for line in _lines(schema)] if m is not None}
+	table_name = ""
+	match_dict = {}
+	for line in _lines(schema):
+		t_match = _table_regex.match(line)
+		e_match = _enum_regex.match(line)
+		if t_match is not None:
+			table_name = t_match.group(1).replace("_", "")
+		if e_match is not None:
+			if e_match.group(1) not in match_dict:
+				match_dict[e_match.group(1)] = {table_name: e_match.group(2)}
+			else:
+				match_dict[e_match.group(1)][table_name] = e_match.group(2)
+	return match_dict
+
 
 def fix_blobs(columns: Set[str], output: str):
 	for line in fileinput.input(output, inplace=True):
@@ -56,22 +75,30 @@ def fix_blobs(columns: Set[str], output: str):
 		else:
 			print(line.rstrip())
 
+
 def gen_enum_field(line, choices):
-	in_field = r'[A-Z][A-Za-z]*Field\((.*?)\)' # Check what's in the parentheses
+	in_field = r'[A-Z][A-Za-z]*Field\((.*?)\)'  # Check what's in the parentheses
 	if re.search(in_field,line).group(1) == "":
 		return 'EnumField(choices=' + choices
 	else:
 		return 'EnumField(choices=' + choices + ', '
 
-def fix_enums(columns_dict: Dict[Match, Match], output: str):
+
+def fix_enums(columns_dict: Dict[str, Dict[str, str]], output: str):
+	table_name = ""
 	for line in fileinput.input(output, inplace=True):
+		t_match = _pw_table_regex.match(line)
 		m = _peewee_field_regex.match(line)
+		if t_match is not None:
+			table_name = t_match.group(1).lower()
 		if m is not None and m.group(1) in columns_dict:
 			rstr_line = line.rstrip()
-			new_str = gen_enum_field(rstr_line, columns_dict[m.group(1)])
-			print(_etype_regex.sub(new_str, rstr_line) + _enum_comment)
+			if table_name in columns_dict[m.group(1)]:
+				new_str = gen_enum_field(rstr_line, columns_dict[m.group(1)][table_name])
+				print(_etype_regex.sub(new_str, rstr_line) + _enum_comment)
 		else:
-			print(line.rstrip())		
+			print(line.rstrip())
+
 
 def run(host: str, username: str, db: str, port: int, header_file: str, schema: str, output: str) -> None:
 	gen_model(host, username, db, port, output)
@@ -83,8 +110,10 @@ def run(host: str, username: str, db: str, port: int, header_file: str, schema: 
 	logging.info("Fixing columns {}".format(enum_columns))
 	fix_enums(enum_columns, output)
 
+
 def main(opts: List[str]) -> None:
 	run(opts.host, opts.username, opts.db, opts.port, opts.header_file, opts.schema, opts.output)
+
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Generates a peewee model and fixes the connection info and binary/blob columns.')
