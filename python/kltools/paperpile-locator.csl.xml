@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="never">
+  <info>
+    <title>locator</title>
+    <id>paperpile-locator-20190713</id>
+    <updated>2019-07-13T02:57:59+00:00</updated>
+  </info>
+  <citation>
+    <layout>
+      <text value=" ${"/>
+      <text variable="citation-number"/>
+      <text variable="DOI" prefix="^doi:'" suffix="`"/>
+      <text variable="ISBN" prefix="^isbn:'" suffix="`"/>
+      <text variable="PMCID" prefix="^pmcid:'" suffix="`"/>
+      <text variable="PMID" prefix="^pmid:'" suffix="`"/>
+      <text variable="URL" prefix="^url:'" suffix="`"/>
+      <text value="} "/>
+    </layout>
+  </citation>
+  <bibliography>
+    <layout>
+      <text variable="citation-number" prefix="[" suffix="] "/>
+      <text variable="title" font-style="italic" suffix=". "/>
+      <names variable="author" font-style="normal" delimiter=", " suffix=". "/>
+      <text variable="publisher" suffix=" "/>
+      <date date-parts="year" form="text" variable="issued" prefix="(" suffix="). "/>
+      <text variable="DOI" prefix="doi:" suffix=". "/>
+      <text variable="PMID" prefix="pmid:" suffix=". "/>
+      <text variable="ISBN" prefix="isbn:" suffix=". "/>
+      <text variable="citation-label" font-style="italic" prefix="label:" suffix="."/>
+    </layout>
+  </bibliography>
+</style>
